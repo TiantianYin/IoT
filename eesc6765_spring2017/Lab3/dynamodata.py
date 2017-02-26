@@ -72,7 +72,8 @@ with open('key.txt', 'rb') as keyfile:
 #newUpdate = mtaUpdates.mtaUpdates()
 
 
-def task1():
+#def task1():
+def task2():
 
  newUpdate = mtaUpdates.mtaUpdates(APIKEY)
  tr = newUpdate.getTripUpdates()
@@ -97,45 +98,38 @@ def task1():
 
 
 
-def task2():
+#def task2():
+def task1():
  #View all data from
  #check and delete
-        cur = str(int(time.time()) - 10)
+  #cur = str(int(time.time()) - 10)
 # response = table.query(
  #  KeyConditionExpression = Key('timeStamp').between('0', cur)
  #  )
-
+  fe = Key('startDate').between(20170220, 20170222);
+  pe = "tripId"
+  """
   response = table.delete_item(
-         KeyConditionExpression="timeStamp <= :val",
+
+         KeyConditionExpression="direction == :val",
          ExpressionAttributeValues= {
-            ":val": cur
+            ":val": 'N'
          }
          # KeyConditionExpression = Key('timeStamp').between('0', cur)
         )
+  """
+  response = table.query(
+    #KeyConditionExpression=Key('year').eq(1985)
+    KeyConditionExpression = Key('startDate').between(20170220, 20170222)
+  )
 
-
+  for i in response['Items']:
+    table.delete_item(tripId=i['tripId'])
 
 
 def worker(num):
-    """thread worker function"""
-    print 'Worker: %s' % num
-def worker(num):
 
     print 'Worker: %s' % num
-    try:
-     while (1):
-      if num == 0:
-       task1()
-       time.sleep(30)
-      else:
-       task2();
-       time.sleep(60)
-
-    except KeyboardInterrupt:
-      exit
-    return
-
-
     try:
      while (1):
       if num == 0:
