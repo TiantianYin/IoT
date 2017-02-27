@@ -98,12 +98,12 @@ def task2():
   )
 
   for i in response['Items']:
-  result=table.delete_item(
-    Key={
-      'tripId': i['tripId'],
-      'routeId': i['routeId']
-    }
-  )
+    result=table.delete_item(
+      Key={
+        'tripId': i['tripId'],
+        'routeId': i['routeId']
+      }
+    )
   time.sleep(60)
 
 
