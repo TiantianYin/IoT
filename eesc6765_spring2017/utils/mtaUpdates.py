@@ -20,7 +20,7 @@ class awsItem(object):
     currentStopId = None
     currentStopStatus = None
     vehicleTimeStamp = None
-    futureStopData = []
+    futureStopData = OrderedDict()
     timeStamp = None
 
 class mtaUpdates(object):
