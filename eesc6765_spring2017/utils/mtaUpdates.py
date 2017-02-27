@@ -17,9 +17,9 @@ class awsItem(object):
     routeId = None
     startDate = None
     direction = None
-    currentStopId = ""
-    currentStopStatus = ""
-    vehicleTimeStamp = ""
+    currentStopId = " "
+    currentStopStatus = " "
+    vehicleTimeStamp = " "
     futureStopData = OrderedDict()
     timeStamp = None
 
