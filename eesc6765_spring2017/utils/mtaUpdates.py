@@ -57,7 +57,7 @@ class mtaUpdates(object):
             newItem = awsItem()
             newItem.timeStamp = timestamp
         # Trip update represents a change in timetable
-            if entity.trip_update and entity.trip_update.trip.trip_id:
+            if entity.HasField('trip_update'):
                 newItem.tripId = entity.trip_update.trip.trip_id
                 newItem.routeId = entity.trip_update.trip.route_id
                 newItem.startDate = entity.trip_update.trip.start_date
@@ -65,12 +65,15 @@ class mtaUpdates(object):
                 for stop in entity.trip_update.stop_time_update:
                     newItem.futureStopData[stop.stop_id] = [{'arrivaltime': stop.arrival.time or None}, {'departuretime': stop.departure.time or None}]
 
-            if entity.vehicle and entity.vehicle.trip.trip_id:
+            if entity.HasField('vehicle'):
                 newItem.currentStopId = entity.vehicle.stop_id
+                print "$$$$$$$$$$" +newItem.currentStopId+ "$$$$$$$$$$"
                 newItem.vehicleTimeStamp = entity.vehicle.timestamp
+                print "!!!!!!!!!!" +newItem.vehicleTimeStamp+ "!!!!!!!!!!"
                 newItem.currentStopStatus = entity.vehicle.current_status
-            
-            if entity.alert:
+                print "**********" +newItem.currentStopStatus+ "**********"
+
+            if entity.HasField('alert'):
                 a = alert.alert()
                 a.alertMessage = entity.alert.header_text.translation
                 #a.alertMessage = entity.alert.header_text.translation.text
