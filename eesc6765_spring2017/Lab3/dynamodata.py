@@ -81,9 +81,9 @@ def task1():
         	'routeId': entity.routeId,
         	'startDate':entity.startDate,
         	'direction':entity.direction,
-        	'currentStopId':entity.currentStopId,
-        	'currentStopStatus':entity.currentStopStatus,
-        	'vehicleTimeStamp': entity.vehicleTimeStamp,
+        	'currentStopId':str(entity.currentStopId),
+        	'currentStopStatus':str(entity.currentStopStatus),
+        	'vehicleTimeStamp': str(entity.vehicleTimeStamp),
         	'futureStopData':entity.futureStopData,
         	'timeStamp':entity.timeStamp
     	     }

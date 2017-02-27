@@ -67,11 +67,11 @@ class mtaUpdates(object):
 
             if entity.HasField('vehicle'):
                 newItem.currentStopId = entity.vehicle.stop_id
-                print "$$$$$$$$$$" +newItem.currentStopId+ "$$$$$$$$$$"
+                #print "$$$$$$$$$$" +newItem.currentStopId+ "$$$$$$$$$$"
                 newItem.vehicleTimeStamp = entity.vehicle.timestamp
-                print "!!!!!!!!!!" +str(newItem.vehicleTimeStamp)+ "!!!!!!!!!!"
+                #print "!!!!!!!!!!" +str(newItem.vehicleTimeStamp)+ "!!!!!!!!!!"
                 newItem.currentStopStatus = entity.vehicle.current_status
-                print "**********" +str(newItem.currentStopStatus)+ "**********"
+                #print "**********" +str(newItem.currentStopStatus)+ "**********"
 
             if entity.HasField('alert'):
                 a = alert.alert()
