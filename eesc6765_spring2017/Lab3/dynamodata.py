@@ -44,7 +44,7 @@ try:
             'AttributeName': 'tripId',
             'AttributeType': 'S'
         },
-		{
+    {
             'AttributeName': 'routeId',
             'AttributeType': 'S'
         },
@@ -106,8 +106,7 @@ def task1():
 # response = table.query(
  #  KeyConditionExpression = Key('timeStamp').between('0', cur)
  #  )
-  fe = Key('startDate').between(20170220, 20170222);
-  pe = "tripId"
+
   """
   response = table.delete_item(
 
