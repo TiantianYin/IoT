@@ -134,9 +134,4 @@ class mtaUpdates(object):
     
     # END OF getTripUpdates method
 
-with open('../Lab3/key.txt', 'rb') as keyfile:
-    APIKEY = keyfile.read().rstrip('\n')
-    keyfile.close()
 
-tmp = mtaUpdates(APIKEY)
-tmp.getTripUpdates()
