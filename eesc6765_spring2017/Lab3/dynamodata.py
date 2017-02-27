@@ -71,72 +71,62 @@ with open('key.txt', 'rb') as keyfile:
 #newUpdate = mtaUpdates.mtaUpdates()
 
 def task1():
- 
- newUpdate = mtaUpdates.mtaUpdates(APIKEY)
- tr = newUpdate.getTripUpdates()
- for entity in tr:
-  #print "$$$$$$$$$$" +entity.currentStopId+ "$$$$$$$$$$"
-  #print "!!!!!!!!!!" +str(entity.vehicleTimeStamp)+ "!!!!!!!!!!"
-  #print "**********" +str(entity.currentStopStatus)+ "**********"
- 	response = table.put_item(
-   		Item={
-        	'tripId': entity.tripId,
-        	'routeId': entity.routeId,
-        	'startDate':entity.startDate,
-        	'direction':entity.direction,
-        	'currentStopId':entity.currentStopId,
-        	'currentStopStatus':entity.currentStopStatus,
-        	'vehicleTimeStamp':entity.vehicleTimeStamp,
-        	'futureStopData':entity.futureStopData,
-        	'timeStamp':entity.timeStamp
-    	     }
-  	)
+  print 'task1:'
+  newUpdate = mtaUpdates.mtaUpdates(APIKEY)
+  tr = newUpdate.getTripUpdates()
+  for entity in tr:
+   	response = table.put_item(
+     		Item={
+          	'tripId': entity.tripId,
+          	'routeId': entity.routeId,
+          	'startDate':entity.startDate,
+          	'direction':entity.direction,
+          	'currentStopId':entity.currentStopId,
+          	'currentStopStatus':entity.currentStopStatus,
+          	'vehicleTimeStamp':entity.vehicleTimeStamp,
+          	'futureStopData':entity.futureStopData,
+          	'timeStamp':entity.timeStamp
+      	     }
+    	)
+  time.sleep(30)
 
-
- #add to AWS
- return
-
-"""
-def task1():
- #View all data from
- #check and delete
- response = table.query(
-     KeyConditionExpression=Key('timeStamp').between('0', '1000')
-)
- return
-"""
 def task2():
- #View all data from
- #check and delete
-	response = table.query(
-    		#KeyConditionExpression=Key('year').eq(1985)
-    		KeyConditionExpression = Key('startDate').between(20170220, 20170222)
-  	)
+  print("Start deleting...")
+  min_time = int(time.time()) - 120
+  response = table.scan(
+    FilterExpression = Key('startDate').between(0, min_time)
+  )
 
-  	for i in response['Items']:
-    		table.delete_item(tripId=i['tripId'])
-
-
-
-def worker(num):
-    """thread worker function"""
-    print 'Worker: %s' % num
-    try:
-     while (1):
-      if num == 0:
-       task1()
-       time.sleep(30)
-      else:
-       task2();
-       time.sleep(60)
-
-    except KeyboardInterrupt:
-      exit
-    return
+  for i in response['Items']:
+  result=table.delete_item( 
+    Key={
+      'tripId': i['tripId'],
+      'routeId': i['routeId']
+    }
+  )
+  time.sleep(60)
 
 
-threads = []
-for i in range(1):
-    t = threading.Thread(target=worker, args=(i,))
-    threads.append(t)
-    t.start()
+if __name__ == '__main__':
+  lock = threading.Lock()
+  event = threading.Event()
+
+  threads = []
+  thread1 = Thread(target = worker_1, args = (lock, event))
+  thread1.setDaemon(True)
+  thread2 = Thread(target = worker_2, args = (lock, event))
+  thread2.setDaemon(True)
+  thread1.start()
+  thread2.start()
+  threads.append(thread1)
+  threads.append(thread2)
+
+  try:
+    while(True):
+      time.sleep(0.5)
+  except KeyboardInterrupt:
+    event.set()
+    for t in threads:
+      t.join()
+    print "Exit! But Daemon Remains!"
+
