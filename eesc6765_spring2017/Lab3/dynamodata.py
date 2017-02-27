@@ -71,7 +71,7 @@ with open('key.txt', 'rb') as keyfile:
 #newUpdate = mtaUpdates.mtaUpdates()
 
 def task1():
-  print 'task1:'
+  print 'Adding!'
   newUpdate = mtaUpdates.mtaUpdates(APIKEY)
   tr = newUpdate.getTripUpdates()
   for entity in tr:
@@ -91,7 +91,7 @@ def task1():
   time.sleep(30)
 
 def task2():
-  print("Start deleting...")
+  print("Deleting!")
   min_time = int(time.time()) - 120
   response = table.scan(
     FilterExpression = Key('startDate').between(0, min_time)
@@ -112,9 +112,9 @@ if __name__ == '__main__':
   event = threading.Event()
 
   threads = []
-  thread1 = Thread(target = worker_1, args = (lock, event))
+  thread1 = Thread(target = task1, args = (lock, event))
   thread1.setDaemon(True)
-  thread2 = Thread(target = worker_2, args = (lock, event))
+  thread2 = Thread(target = task2, args = (lock, event))
   thread2.setDaemon(True)
   thread1.start()
   thread2.start()
