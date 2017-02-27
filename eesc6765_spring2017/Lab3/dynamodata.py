@@ -1,8 +1,9 @@
-# *****************************************************************************************$
-# Program to update dynamodb with latest data from mta feed. It also cleans up stale entrie$
+# *********************************************************************************************
+# Program to update dynamodb with latest data from mta feed. It also cleans up stale entried from db
 # Usage python dynamodata.py
-# *****************************************************************************************$
-
+# *********************************************************************************************
+#from __future__ import print_function # Python 2/3 compatibility
+#import boto3
 import json,time,sys
 import threading
 from collections import OrderedDict
@@ -19,7 +20,6 @@ sys.path.append('../utils')
 import tripupdate,vehicle,alert,mtaUpdates,aws
 
 ### YOUR CODE HERE ####
-
 
 dynamodb = aws.getResource('dynamodb', 'us-east-1')
 
@@ -60,7 +60,6 @@ except:
   table = dynamodb.Table('mtaData')
         #add function
 
-
 #=====
 #threads
 
@@ -71,71 +70,54 @@ with open('key.txt', 'rb') as keyfile:
         keyfile.close()
 #newUpdate = mtaUpdates.mtaUpdates()
 
-
-def task1():
-
+def task2():
+ 
  newUpdate = mtaUpdates.mtaUpdates(APIKEY)
  tr = newUpdate.getTripUpdates()
  for entity in tr:
-        response = table.put_item(
-                Item={
-                'tripId': entity.tripId,
-                'routeId': entity.routeId,
-                'startDate':entity.startDate,
-                'direction':entity.direction,
-                'currentStopId':entity.currentStopId,
-                'currentStopStatus':entity.currentStopStatus,
-                'vehicleTimeStamp': str(entity.vehicleTimeStamp),
-                'futureStopData':entity.futureStopData,
-                'timeStamp':str(entity.timeStamp)
-                }
-        )
+ 	response = table.put_item(
+   		Item={
+        	'tripId': entity.tripId,
+        	'routeId': entity.routeId,
+        	'startDate':entity.startDate,
+        	'direction':entity.direction,
+        	'currentStopId':entity.currentStopId,
+        	'currentStopStatus':entity.currentStopStatus,
+        	'vehicleTimeStamp': str(entity.vehicleTimeStamp),
+        	'futureStopData':entity.futureStopData,
+        	'timeStamp':str(entity.timeStamp)
+    	        }
+  	)
 
 
  #add to AWS
  return
 
-
-
-def task2():
+"""
+def task1():
  #View all data from
  #check and delete
-        cur = str(int(time.time()) - 10)
-# response = table.query(
- #  KeyConditionExpression = Key('timeStamp').between('0', cur)
- #  )
+ response = table.query(
+     KeyConditionExpression=Key('timeStamp').between('0', '1000')
+)
+ return
+"""
+def task1():
+ #View all data from
+ #check and delete
+	response = table.query(
+    		#KeyConditionExpression=Key('year').eq(1985)
+    		KeyConditionExpression = Key('startDate').between(20170220, 20170222)
+  	)
 
-  response = table.delete_item(
-         KeyConditionExpression="timeStamp <= :val",
-         ExpressionAttributeValues= {
-            ":val": cur
-         }
-         # KeyConditionExpression = Key('timeStamp').between('0', cur)
-        )
-
+  	for i in response['Items']:
+    		table.delete_item(tripId=i['tripId'])
 
 
 
 def worker(num):
     """thread worker function"""
     print 'Worker: %s' % num
-def worker(num):
-
-    print 'Worker: %s' % num
-    try:
-     while (1):
-      if num == 0:
-       task1()
-       time.sleep(30)
-      else:
-       task2();
-       time.sleep(60)
-
-    except KeyboardInterrupt:
-      exit
-    return
-
-
     try:
      while (1):
       if num == 0:
@@ -155,5 +137,3 @@ for i in range(1):
     t = threading.Thread(target=worker, args=(i,))
     threads.append(t)
     t.start()
-
-
