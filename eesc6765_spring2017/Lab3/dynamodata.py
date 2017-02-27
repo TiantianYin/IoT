@@ -70,7 +70,7 @@ with open('key.txt', 'rb') as keyfile:
         keyfile.close()
 #newUpdate = mtaUpdates.mtaUpdates()
 
-def task2():
+def task1():
  
  newUpdate = mtaUpdates.mtaUpdates(APIKEY)
  tr = newUpdate.getTripUpdates()
@@ -83,10 +83,10 @@ def task2():
         	'direction':entity.direction,
         	'currentStopId':entity.currentStopId,
         	'currentStopStatus':entity.currentStopStatus,
-        	'vehicleTimeStamp': str(entity.vehicleTimeStamp),
+        	'vehicleTimeStamp': entity.vehicleTimeStamp,
         	'futureStopData':entity.futureStopData,
-        	'timeStamp':str(entity.timeStamp)
-    	        }
+        	'timeStamp':entity.timeStamp
+    	     }
   	)
 
 
@@ -102,7 +102,7 @@ def task1():
 )
  return
 """
-def task1():
+def task2():
  #View all data from
  #check and delete
 	response = table.query(
