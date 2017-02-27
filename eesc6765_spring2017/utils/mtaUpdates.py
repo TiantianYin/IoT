@@ -58,66 +58,17 @@ class mtaUpdates(object):
             newItem.timeStamp = timestamp
         # Trip update represents a change in timetable
             if entity.trip_update and entity.trip_update.trip.trip_id:
-                update = tripupdate.tripupdate()
-
                 newItem.tripId = entity.trip_update.trip.trip_id
                 newItem.routeId = entity.trip_update.trip.route_id
                 newItem.startDate = entity.trip_update.trip.start_date
-                newItem.direction = None
-                stopId = None
-
-                newItem.futureStopData = str(entity.trip_update.stop_time_update)
-                #print  newItem.futureStopData
-
-
-                #for stop_time_update in entity.trip_update:
-                for stop_time_update in []:
-                    arrivalTime = None
-                    departureTime = None
-                    if stop_time_update.arrival:
-                        arrivalTime = stop_time_update.arrival.time
-                    if stop_time_update.departure:
-                        departureTime = stop_time_update.departure.time
-
-                    update.futureStops[stopId] = [{"arrivalTime":arrivalTime}, {"departureTime": departureTime}]
-
-                for i in newItem.tripId:
-                    if i == 'N':
-                        stopId = 'N'
-                        break;
-                    if i == 'S':
-                        stopId = 'S'
-
-                newItem.direction = stopId
-
-                update.tripId = newItem.tripId
-                update.routeId = newItem.routeId
-                update.startDate = newItem.startDate
-                update.direction = newItem.direction
-
-
-                #self.tripUpdates.append(update)
-
-
-
-            ##### INSERT TRIPUPDATE CODE HERE ####  
+                newItem.direction = entity.trip_update.stop_time_update[0].stop_id[-1]
+                for stop in entity.trip_update.stop_time_update:
+                    newItem.futureStopData[stop.stop_id] = [{'arrivaltime': stop.arrival.time or None}, {'departuretime': stop.departure.time or None}]
 
             if entity.vehicle and entity.vehicle.trip.trip_id:
-                v = vehicle.vehicle()
-
-                
                 newItem.currentStopId = entity.vehicle.stop_id
                 newItem.vehicleTimeStamp = entity.vehicle.timestamp
                 newItem.currentStopStatus = entity.vehicle.current_status
-
-                v.currentStopNumber = entity.vehicle.current_stop_sequence
-                v.currentStopId = newItem.currentStopId
-                v.timestamp = newItem.vehicleTimeStamp
-                v.currentStopStatus = newItem.currentStopStatus
-                
-                #self.vehicles.append(v)
-
-            ##### INSERT VEHICLE CODE HERE #####
             
             if entity.alert:
                 a = alert.alert()
