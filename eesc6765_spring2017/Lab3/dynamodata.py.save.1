@@ -1,0 +1,68 @@
+# *********************************************************************************************
+# Program to update dynamodb with latest data from mta feed. It also cleans up stale entried from db
+# Usage python dynamodata.py
+# *********************************************************************************************
+#from __future__ import print_function # Python 2/3 compatibility
+#import boto3
+import json,time,sys
+from collections import OrderedDict
+from threading import Thread
+
+import boto3
+from boto3.dynamodb.conditions import Key,Attr
+#from __future__ import print_function # Python 2/3 compatibility
+#import boto3
+
+sys.path.append('../utils')
+import tripupdate,vehicle,alert,aws   #mtaUpdates,aws
+
+### YOUR CODE HERE ####
+
+
+dynamodb = aws.getResource('dynamodb', 'us-east-1')
+
+
+try:
+  table = dynamodb.create_table(
+    TableName='mtaData',
+    KeySchema=[
+        {
+            'AttributeName': 'tripId',
+            'KeyType': 'HASH'  #Partition key
+        },
+        {
+            'AttributeName': 'routeId',
+            'KeyType': 'RANGE'  #Sort key
+        }
+    ],
+    AttributeDefinitions=[
+        {
+            'AttributeName': 'tripId',
+            'AttributeType': 'S'
+        },
+        {
+            'AttributeName': 'routeId',
+            'AttributeType': 'S'
+        },
+
+    ],
+    ProvisionedThroughput={
+        'ReadCapacityUnits': 10,
+        'WriteCapacityUnits': 10
+    }
+  )
+  print("Table status:", table.table_status)
+except:
+  print("inserting:")
+	#add function
+
+  response = table.put_item(
+   Item={
+        'year': year,
+        'title': title,
+        'info': {
+            'plot':"Nothing happens at all.",
+            'rating': decimal.Decimal(0)
+        }
+    }
+  )
