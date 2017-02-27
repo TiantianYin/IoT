@@ -66,11 +66,11 @@ class mtaUpdates(object):
                     newItem.futureStopData[stop.stop_id] = [{'arrivaltime': stop.arrival.time or None}, {'departuretime': stop.departure.time or None}]
 
             if entity.HasField('vehicle'):
-                newItem.currentStopId = entity.vehicle.stop_id
+                newItem.currentStopId = str(entity.vehicle.stop_id)
                 #print "$$$$$$$$$$" +newItem.currentStopId+ "$$$$$$$$$$"
-                newItem.vehicleTimeStamp = entity.vehicle.timestamp
+                newItem.vehicleTimeStamp = str(entity.vehicle.timestamp)
                 #print "!!!!!!!!!!" +str(newItem.vehicleTimeStamp)+ "!!!!!!!!!!"
-                newItem.currentStopStatus = entity.vehicle.current_status
+                newItem.currentStopStatus = str(entity.vehicle.current_status)
                 #print "**********" +str(newItem.currentStopStatus)+ "**********"
 
             if entity.HasField('alert'):

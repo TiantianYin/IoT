@@ -75,6 +75,9 @@ def task1():
  newUpdate = mtaUpdates.mtaUpdates(APIKEY)
  tr = newUpdate.getTripUpdates()
  for entity in tr:
+  #print "$$$$$$$$$$" +entity.currentStopId+ "$$$$$$$$$$"
+  #print "!!!!!!!!!!" +str(entity.vehicleTimeStamp)+ "!!!!!!!!!!"
+  #print "**********" +str(entity.currentStopStatus)+ "**********"
  	response = table.put_item(
    		Item={
         	'tripId': entity.tripId,
