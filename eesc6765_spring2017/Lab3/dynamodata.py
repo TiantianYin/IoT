@@ -94,7 +94,7 @@ def task2():
   print("Deleting!")
   min_time = int(time.time()) - 120
   response = table.scan(
-    FilterExpression = Key('startDate').between(0, min_time)
+    FilterExpression = Key('timeStamp').between(0, min_time)
   )
 
   for i in response['Items']:
@@ -122,7 +122,6 @@ if __name__ == '__main__':
     while(True):
       time.sleep(0.5)
   except KeyboardInterrupt:
-    event.set()
     for t in threads:
       t.join()
     print "Exit! But Daemon Remains!"
