@@ -17,9 +17,9 @@ class awsItem(object):
     routeId = None
     startDate = None
     direction = None
-    currentStopId = " "
-    currentStopStatus = " "
-    vehicleTimeStamp = " "
+    currentStopId = None
+    currentStopStatus = None
+    vehicleTimeStamp = None
     futureStopData = OrderedDict()
     timeStamp = None
 
@@ -54,23 +54,27 @@ class mtaUpdates(object):
         
 
         for entity in feed.entity:
-            newItem = awsItem()
-            newItem.timeStamp = timestamp
+            
+            
         # Trip update represents a change in timetable
             if entity.HasField('trip_update'):
+                newItem = awsItem()
+                newItem.timeStamp = timestamp
+
                 newItem.tripId = entity.trip_update.trip.trip_id
                 newItem.routeId = entity.trip_update.trip.route_id
                 newItem.startDate = entity.trip_update.trip.start_date
                 newItem.direction = entity.trip_update.stop_time_update[0].stop_id[-1]
                 for stop in entity.trip_update.stop_time_update:
                     newItem.futureStopData[stop.stop_id] = [{'arrivaltime': stop.arrival.time or None}, {'departuretime': stop.departure.time or None}]
+                self.tripUpdates.append(newItem)
 
             if entity.HasField('vehicle'):
-                newItem.currentStopId = str(entity.vehicle.stop_id)
+                self.tripUpdates[len(self.tripUpdates)-1].currentStopId = entity.vehicle.stop_id
                 #print "$$$$$$$$$$" +newItem.currentStopId+ "$$$$$$$$$$"
-                newItem.vehicleTimeStamp = str(entity.vehicle.timestamp)
+                self.tripUpdates[len(self.tripUpdates)-1].vehicleTimeStamp = entity.vehicle.timestamp
                 #print "!!!!!!!!!!" +str(newItem.vehicleTimeStamp)+ "!!!!!!!!!!"
-                newItem.currentStopStatus = str(entity.vehicle.current_status)
+                self.tripUpdates[len(self.tripUpdates)-1].currentStopStatus = entity.vehicle.current_status
                 #print "**********" +str(newItem.currentStopStatus)+ "**********"
 
             if entity.HasField('alert'):
@@ -80,8 +84,6 @@ class mtaUpdates(object):
                 self.alerts.append(a)
 
             #### INSERT ALERT CODE HERE #####
-            if newItem.tripId:
-                self.tripUpdates.append(newItem)
 
         
         return self.tripUpdates
