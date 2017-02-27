@@ -71,7 +71,7 @@ class mtaUpdates(object):
                 newItem.vehicleTimeStamp = entity.vehicle.timestamp
                 print "!!!!!!!!!!" +str(newItem.vehicleTimeStamp)+ "!!!!!!!!!!"
                 newItem.currentStopStatus = entity.vehicle.current_status
-                print "**********" +newItem.currentStopStatus+ "**********"
+                print "**********" +str(newItem.currentStopStatus)+ "**********"
 
             if entity.HasField('alert'):
                 a = alert.alert()
