@@ -69,7 +69,7 @@ class mtaUpdates(object):
                 newItem.currentStopId = entity.vehicle.stop_id
                 print "$$$$$$$$$$" +newItem.currentStopId+ "$$$$$$$$$$"
                 newItem.vehicleTimeStamp = entity.vehicle.timestamp
-                print "!!!!!!!!!!" +newItem.vehicleTimeStamp+ "!!!!!!!!!!"
+                print "!!!!!!!!!!" +str(newItem.vehicleTimeStamp)+ "!!!!!!!!!!"
                 newItem.currentStopStatus = entity.vehicle.current_status
                 print "**********" +newItem.currentStopStatus+ "**********"
 
