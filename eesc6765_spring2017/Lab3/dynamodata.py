@@ -108,13 +108,10 @@ def task2():
 
 
 if __name__ == '__main__':
-  lock = threading.Lock()
-  event = threading.Event()
-
   threads = []
-  thread1 = Thread(target = task1, args = (lock, event))
+  thread1 = Thread(target = task1)
   thread1.setDaemon(True)
-  thread2 = Thread(target = task2, args = (lock, event))
+  thread2 = Thread(target = task2)
   thread2.setDaemon(True)
   thread1.start()
   thread2.start()
