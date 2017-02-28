@@ -52,6 +52,8 @@ class mtaUpdates(object):
         timestamp = feed.header.timestamp
         nytime = datetime.fromtimestamp(timestamp,self.TIMEZONE)
 
+        aaa = 0
+
         for entity in feed.entity:
         # Trip update represents a change in timetable
             if entity.HasField('trip_update'):
@@ -65,6 +67,12 @@ class mtaUpdates(object):
                 for stop in entity.trip_update.stop_time_update:
                     newItem.futureStopData[stop.stop_id] = [{'arrivaltime': stop.arrival.time or None}, {'departuretime': stop.departure.time or None}]
                 self.tripUpdates.append(newItem)
+                if aaa == 0:
+                    aaa = 1
+                    print entity.trip_update.stop_time_update
+                    print '------------------------------------'
+                    print newItem.futureStopData
+                    print '------------------------------------'
 
             if entity.HasField('vehicle'):
                 self.tripUpdates[len(self.tripUpdates)-1].currentStopId = entity.vehicle.stop_id
