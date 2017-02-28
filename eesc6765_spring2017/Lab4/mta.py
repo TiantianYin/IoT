@@ -97,11 +97,17 @@ def getTime(start, destination, timestamp):
 
 def sendPlan(start, destination, timestamp):
 	msg = " "
+	"""
 	twoTimes = getTime(start, destination, timestamp)
 	if twoTimes[0] <= twoTimes[1]:
 		msg = "Stay"
 	else:
 		msg = "Switch"
+	"""
+	#----
+	k = getEarliest(str(start) + 'S', time.time())
+	msg = k[2]
+	#----
 	print msg
 	response = client.publish(
 		TopicArn='arn:aws:sns:us-east-1:768104751743:IoT_Lab4_1',
@@ -135,8 +141,7 @@ def replyToNew():
 
 def main():
 	#print getTrain('120')
-	print getEarliest('120S', time.time())
-	"""
+	#print getEarliest('120S', time.time())
 	try:
 		while True:
 			while True:
@@ -163,7 +168,6 @@ def main():
 			print 'Your operation is done. Ctrl+C to exit or continue!'
 	except KeyboardInterrupt:
 		exit
-	"""
 
 
 
