@@ -57,7 +57,7 @@ def replyToNew():
 
 	response = client.publish(
     	TopicArn='arn:aws:sns:us-east-1:768104751743:IoT_Lab4_1',
-    	TargetArn=new_arn
+    	TargetArn=new_arn,
     	Message=msg
 	)
 
