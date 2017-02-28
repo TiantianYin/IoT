@@ -91,6 +91,7 @@ def task1():
   time.sleep(30)
 
 def task2():
+  time.sleep(20)
   print("Deleting!")
   min_time = int(time.time()) - 120
   response = table.scan(
@@ -104,7 +105,7 @@ def task2():
         'routeId': i['routeId']
       }
     )
-  time.sleep(60)
+  time.sleep(40)
 
 
 if __name__ == '__main__':

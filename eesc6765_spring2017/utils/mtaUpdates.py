@@ -51,11 +51,8 @@ class mtaUpdates(object):
     
         timestamp = feed.header.timestamp
         nytime = datetime.fromtimestamp(timestamp,self.TIMEZONE)
-        
 
         for entity in feed.entity:
-            
-            
         # Trip update represents a change in timetable
             if entity.HasField('trip_update'):
                 newItem = awsItem()
@@ -90,4 +87,8 @@ class mtaUpdates(object):
     
     # END OF getTripUpdates method
 
-
+if __name__ == '__main__':
+    apikey = '7b0c2537b0f7349b92499a8387da47bd'
+    mta = mtaUpdates(apikey)
+    res = mta.getTripUpdates()
+    print res
