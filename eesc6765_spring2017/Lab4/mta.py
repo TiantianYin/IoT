@@ -39,14 +39,13 @@ def getTrain(stationID):
 
   	for i in response['Items']:
   		try:
-  			print i['routeId']
   			tmp = routeId[i['routeId']]
   		except KeyError:
   			for [k,v] in  i['futureStopData'].items():
   				k = str(k)
   				if len(k) >= 3:
-  					#if k[0:3] == stationID:
-  					if k[0:3] == '120':
+  					if k[0:3] == stationID[0:3]:
+  					#if k[0:3] == '120':
   						routeId[i['routeId']] = 1
   						break
 
@@ -64,9 +63,9 @@ def getTrain(stationID):
   	return [local,express]
 
 
-def getEarliest(stationID, timestamp):
+def getEarliest(stopID, timestamp):
 	response = table.scan()
-	trains = getTrain(stationID)
+	trains = getTrain(stopID)
 	localTimeToArrive = 9999999999
 	expressTimeToArrive = 9999999999
 	localTripId = "-1"
@@ -74,7 +73,7 @@ def getEarliest(stationID, timestamp):
   	for i in response['Items']:
   		if (i['routeId'] in trains[0]) or (i['routeId'] in trains[1]):
   			for [k,v] in  i['futureStopData'].items():
-  				if k == "120S":
+  				if k == stopID:
   					for j in v:
   						try:
   							arrTime = j['arrivaltime']
