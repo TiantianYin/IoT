@@ -22,7 +22,7 @@ client = boto3.client('sns')
 
 response = client.publish(
     TopicArn='arn:aws:sns:us-east-1:768104751743:IoT_Lab4_1',
-    TargetArn='arn:aws:sns:us-east-1:768104751743:IoT_Lab4_1:1a93e108-c975-437e-bd2e-ef08a6bc69d9',
+    #TargetArn='arn:aws:sns:us-east-1:768104751743:IoT_Lab4_1:1a93e108-c975-437e-bd2e-ef08a6bc69d9',
     Message='The current temprature is: ' + str(temp)
 )
 
