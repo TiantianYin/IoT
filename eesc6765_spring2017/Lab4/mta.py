@@ -37,9 +37,14 @@ def getTrain(stationID):
 
   	for i in response['Items']:
   		try:
+  			print i['routeId']
   			tmp = routeId[i['routeId']]
   		except KeyError:
-  			for (k,v) in  i['futureStopData'].items():
+  			for [k,v] in  i['futureStopData'].items():
+  				print k
+  				print v
+  				print '---------'
+  	"""
   				if k.len() >= 3:
   					#if k[0:3] == stationID:
   					if k[0:3] == '120':
@@ -53,6 +58,7 @@ def getTrain(stationID):
   			local.append(k)
   		else:
   			express.append(k)
+  	"""
   	return [local,express]
 
 
