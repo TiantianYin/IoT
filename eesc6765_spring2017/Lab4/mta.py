@@ -43,6 +43,7 @@ def getTrain(stationID):
   			tmp = routeId[i['routeId']]
   		except KeyError:
   			for [k,v] in  i['futureStopData'].items():
+  				k = str(k)
   				if k.len() >= 3:
   					#if k[0:3] == stationID:
   					if k[0:3] == '120':
