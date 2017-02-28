@@ -5,6 +5,8 @@ import json,time,csv,sys
 
 import boto3
 from boto3.dynamodb.conditions import Key,Attr
+import boto.sns
+import logging
 
 sys.path.append('../utils')
 import aws
@@ -39,10 +41,48 @@ def sendPlan(start, destination, timestamp):
 
 #reply when subscribe
 def replyToNew():
+	while True:
+		phone_num = raw_input('Please input your phone number:')
+		if phone_num.isdigit():
+			break
+		else:
+			print 'Illegal Input! Please input again.'
+
+	new_arn = client.subscribe(
+		TopicArn='arn:aws:sns:us-east-1:768104751743:IoT_Lab4_1',
+		Protocol='sms',
+		Endpoint=phone_num
+	)
+
+	msg = "Subscribe Success!"
+
+	response = client.publish(
+    	TopicArn='arn:aws:sns:us-east-1:768104751743:IoT_Lab4_1',
+    	TargetArn=new_arn
+    	Message=msg
+	)
 
 
 def main():
-	prompt()
+	while True:
+		prompt()
+		choose=raw_input('Please input your choice:')
+		if choose == '1' or choose == '2' or choose == '3':
+			break
+		else:
+			print 'Illegal Input! Please input again.'
+	if choose == '1':
+	elif choose == '2':
+		replyToNew()
+	else:
+		exit
+
+
+
+
+
+
+
 	response = table.scan(
 		#KeyConditionExpression=Key('year').eq(1985)
 		FilterExpression = Key('startDate').between('20170220', '20170222')
