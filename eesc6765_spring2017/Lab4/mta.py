@@ -40,8 +40,8 @@ def sendPlan(start, destination, timestamp):
 
 #reply when subscribe
 def replyToNew():
-	while False:	
-	#while True:
+	#while False:	
+	while True:
 		phone_num = raw_input('Please input your phone number:')
 		if phone_num.isdigit():
 			break
