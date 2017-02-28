@@ -125,5 +125,6 @@ if __name__ == '__main__':
   except KeyboardInterrupt:
     for t in threads:
       t.join()
+    exit()
     print "Exit! But Daemon Remains!"
 

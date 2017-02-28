@@ -91,9 +91,41 @@ def getEarliest(stopID, timestamp):
   							continue
   	return [localTimeToArrive, expressTimeToArrive, localTripId, expressTripId]
 
-"""
+
 def getTime(start, destination, timestamp):
-"""
+	response = table.scan()
+	#trains = getTrain(stationID)
+	#if the start station is north than 96 (120), and heading to the south: 
+	#startTrain = getEarliest(stationID, timestamp)
+	#startID = '117'
+	nextTimeArrive = 9999999999
+	idOfTrain = 1
+	localTripId = None
+
+	#get the next train in start station 
+	for i in response['Items']:
+		if i['routeId'] == '1' :
+			try:
+				nex_time = i['futureStopData'][start + 'S'][0]['arrivaltime']
+				if nex_time >= timestamp and nex_time < nextTimeArrive :
+					nextTimeArrive = nex_time
+					idOfTrain = 1
+					localTripId = i['tripId']
+			except KeyError:
+				continue
+
+	#here we get the start time and the train
+	timeTo96 = timeTo(localTripId, '120', 'S')
+	timeTo42 = timeTo(localTripId, '127', 'S')
+	print timeTo96
+	print timeTo42
+
+	expTripId = getEarliest('120S', timeTo96)[3]   #get the tripId from 96 express train
+	print expTripId
+	#timeTo42Exp = timeTo(expTripId, '127', 'S')
+
+
+	#return [timeTo42, timeTo42Exp]
 
 def sendPlan(start, destination, timestamp):
 	msg = " "
@@ -165,7 +197,6 @@ def main():
 			else:
 				print 'Thanks for using!'
 				exit()
-			print 'Your operation is done. Ctrl+C to exit or continue!'
 	except KeyboardInterrupt:
 		exit()
 
