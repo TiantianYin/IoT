@@ -63,19 +63,25 @@ def replyToNew():
 
 
 def main():
-	while True:
-		prompt()
-		choose=raw_input('Please input your choice:')
-		if choose == '1' or choose == '2' or choose == '3':
-			break
-		else:
-			print 'Illegal Input! Please input again.'
-	if choose == '1':
-	elif choose == '2':
-		replyToNew()
-	else:
-		exit
-
+	try:
+		while True:
+			while True:
+				prompt()
+				choose=raw_input('Please input your choice:')
+				if choose == '1' or choose == '2' or choose == '3':
+					break
+				else:
+					print 'Illegal input! Please input again.'
+			if choose == '1':
+				print '!'
+			elif choose == '2':
+				replyToNew()
+			else:
+				print 'Thanks for using!'
+				exit
+			print 'Your operation is done. Ctrl+C to exit or continue!'
+	except KeyboardInterrupt:
+        exit
 
 
 
