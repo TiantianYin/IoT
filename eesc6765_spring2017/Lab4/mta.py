@@ -59,7 +59,7 @@ def getTrain(stationID):
   	for i in local:
   		print i
   	print "Express:"
-  	for i in local:
+  	for i in express:
   		print i
   	return [local,express]
 
@@ -82,11 +82,11 @@ def getEarliest(stationID, timestamp):
   							timeToArrive = arrTime - timestamp
   							if i['routeId'] in trains[0]:
   								if timeToArrive >= 0 and timeToArrive < localTimeToArrive:
-  									localTimeToArrive = timeToArrive
+  									localTimeToArrive = arrTime
   									localTripId = i['tripId']
   							else:
   								if timeToArrive >= 0 and timeToArrive < expressTimeToArrive:
-  									expressTimeToArrive = timeToArrive
+  									expressTimeToArrive = arrTime
   									expressTripId = i['tripId']
   						except KeyError:
   							continue
@@ -149,6 +149,9 @@ def main():
 					print 'Illegal input! Please input again.'
 			if choose == '1':
 				print '!'
+				print 'Please input your start stationID and direction(N/S):'
+				stationID=raw_input('StationID: ')
+				direction=raw_input('Direction(N/S): ')
 			elif choose == '2':
 				replyToNew()
 			else:
