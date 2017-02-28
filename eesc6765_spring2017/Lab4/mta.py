@@ -55,6 +55,12 @@ def getTrain(stationID):
   			local.append(k)
   		else:
   			express.append(k)
+  	print "Local:"
+  	for i in local:
+  		print i
+  	print "Express:"
+  	for i in local:
+  		print i
   	return [local,express]
 
 
@@ -77,13 +83,14 @@ def getEarliest(stationID, timestamp):
   							if i['routeId'] in trains[0]:
   								if timeToArrive >= 0 and timeToArrive < localTimeToArrive:
   									localTimeToArrive = timeToArrive
-
+  									localTripId = i['tripId']
   							else:
   								if timeToArrive >= 0 and timeToArrive < expressTimeToArrive:
   									expressTimeToArrive = timeToArrive
+  									expressTripId = i['tripId']
   						except KeyError:
   							continue
-  	return [localTime, expressTime, ]
+  	return [localTime, expressTime, localTripId, expressTripId]
 
 """
 def getTime(start, destination, timestamp):
@@ -128,7 +135,8 @@ def replyToNew():
 
 
 def main():
-	print getTrain('120')
+	#print getTrain('120')
+	print getEarliest('120S', time.time())
 	"""
 	try:
 		while True:
