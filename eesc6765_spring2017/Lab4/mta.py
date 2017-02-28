@@ -59,7 +59,7 @@ def replyToNew():
 	msg = "Subscribe Success!"
 
 	response = client.publish(
-    	TargetArn=new_arn,
+    	PhoneNumber=phone_num,
     	Message=msg
 	)
 
