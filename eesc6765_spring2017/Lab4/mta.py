@@ -123,6 +123,8 @@ def replyToNew():
 
 
 def main():
+	print getTrain('120')
+	"""
 	try:
 		while True:
 			while True:
@@ -142,6 +144,7 @@ def main():
 			print 'Your operation is done. Ctrl+C to exit or continue!'
 	except KeyboardInterrupt:
 		exit
+	"""
 
 
 
