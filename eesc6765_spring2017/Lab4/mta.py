@@ -18,6 +18,7 @@ dynamodb = aws.getResource('dynamodb', 'us-east-1')
 
 table = dynamodb.Table(DYNAMODB_TABLE_NAME)
 
+client = boto3.client('sns', 'us-east-1')
 
 # prompt
 def prompt():
