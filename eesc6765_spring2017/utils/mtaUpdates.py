@@ -11,18 +11,6 @@ import vehicle,alert,tripupdate
 import urllib,urllib2
 import sys
 
-
-class awsItem(object):
-    tripId = None
-    routeId = None
-    startDate = None
-    direction = None
-    currentStopId = "-1"
-    currentStopStatus = -1
-    vehicleTimeStamp = -1
-    futureStopData = OrderedDict()
-    timeStamp = None
-
 class mtaUpdates(object):
 
     # Do not change Timezone
@@ -57,30 +45,29 @@ class mtaUpdates(object):
         for entity in feed.entity:
         # Trip update represents a change in timetable
             if entity.HasField('trip_update'):
+                self.tripUpdates.append([])
+                update = tripupdate.tripupdate()
+
                 newItem = awsItem()
                 newItem.timeStamp = timestamp
-
-                newItem.tripId = entity.trip_update.trip.trip_id
-                newItem.routeId = entity.trip_update.trip.route_id
-                newItem.startDate = entity.trip_update.trip.start_date
-                newItem.direction = entity.trip_update.stop_time_update[0].stop_id[-1]
+                self.tripUpdates[len(self.tripUpdates)-1].append(entity.trip_update.trip.trip_id)
+                self.tripUpdates[len(self.tripUpdates)-1].append(entity.trip_update.trip.route_id)
+                self.tripUpdates[len(self.tripUpdates)-1].append(entity.trip_update.trip.start_date)
+                self.tripUpdates[len(self.tripUpdates)-1].append(entity.trip_update.stop_time_update[0].stop_id[-1])
                 for stop in entity.trip_update.stop_time_update:
-                    newItem.futureStopData[stop.stop_id] = [{'arrivaltime': stop.arrival.time or None}, {'departuretime': stop.departure.time or None}]
-                self.tripUpdates.append(copy.copy(newItem))
-                if aaa == 0:
-                    aaa = 1
-                    print entity.trip_update.stop_time_update
-                    print '------------------------------------'
-                    print newItem.futureStopData
-                    print '------------------------------------' 
-                    print self.tripUpdates[0].futureStopData
+                    update.futureStops[stop.stop_id] = [{'arrivaltime': stop.arrival.time or None}, {'departuretime': stop.departure.time or None}]
+                self.tripUpdates[len(self.tripUpdates)-1].append(update.futureStops)
+                self.tripUpdates[len(self.tripUpdates)-1].append(timestamp)
+                self.tripUpdates[len(self.tripUpdates)-1].append("-1")
+                self.tripUpdates[len(self.tripUpdates)-1].append(-1)
+                self.tripUpdates[len(self.tripUpdates)-1].append(-1)
 
             if entity.HasField('vehicle'):
-                self.tripUpdates[len(self.tripUpdates)-1].currentStopId = entity.vehicle.stop_id
+                self.tripUpdates[len(self.tripUpdates)-1][6] = entity.vehicle.stop_id
                 #print "$$$$$$$$$$" +newItem.currentStopId+ "$$$$$$$$$$"
-                self.tripUpdates[len(self.tripUpdates)-1].vehicleTimeStamp = entity.vehicle.timestamp
+                self.tripUpdates[len(self.tripUpdates)-1][7] = entity.vehicle.timestamp
                 #print "!!!!!!!!!!" +str(newItem.vehicleTimeStamp)+ "!!!!!!!!!!"
-                self.tripUpdates[len(self.tripUpdates)-1].currentStopStatus = entity.vehicle.current_status
+                self.tripUpdates[len(self.tripUpdates)-1][8] = entity.vehicle.current_status
                 #print "**********" +str(newItem.currentStopStatus)+ "**********"
 
             if entity.HasField('alert'):

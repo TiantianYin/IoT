@@ -77,15 +77,15 @@ def task1():
   for entity in tr:
    	response = table.put_item(
      		Item={
-          	'tripId': entity.tripId,
-          	'routeId': entity.routeId,
-          	'startDate':entity.startDate,
-          	'direction':entity.direction,
-          	'currentStopId':entity.currentStopId,
-          	'currentStopStatus':entity.currentStopStatus,
-          	'vehicleTimeStamp':entity.vehicleTimeStamp,
-          	'futureStopData':entity.futureStopData,
-          	'timeStamp':entity.timeStamp
+          	'tripId': entity[0],
+          	'routeId': entity[1],
+          	'startDate':entity[2],
+          	'direction':entity[3],
+          	'currentStopId':entity[6],
+          	'currentStopStatus':entity[8],
+          	'vehicleTimeStamp':entity[7],
+          	'futureStopData':entity[4],
+          	'timeStamp':entity[5]
       	     }
     	)
   time.sleep(30)
