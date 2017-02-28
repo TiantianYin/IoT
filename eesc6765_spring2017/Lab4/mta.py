@@ -28,6 +28,19 @@ def prompt():
 tripID1 = '103100_4..N34R'
 routeId1 = '4'
 
+
+def getTrain(stationID):
+
+def getEarliest(stationID, timestamp):
+
+def getTime(start, destination, timestamp):
+
+def sendPlan(start, destination, timestamp):
+
+#reply when subscribe
+def replyToNew():
+
+
 def main():
 	prompt()
 	response = table.scan(
