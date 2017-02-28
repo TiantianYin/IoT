@@ -91,6 +91,15 @@ def getEarliest(stopID, timestamp):
   							continue
   	return [localTimeToArrive, expressTimeToArrive, localTripId, expressTripId]
 
+def timeTo(tripId, destination, direction):
+	response = table.scan(
+		FilterExpression = Key('tripId').eq(tripId)
+	)
+	try:
+		time = response['Items'][0]['futureStopData'][destination + direction][0]['arrivaltime']
+	except KeyError:
+		return None
+	return time
 
 def getTime(start, destination, timestamp):
 	response = table.scan()
