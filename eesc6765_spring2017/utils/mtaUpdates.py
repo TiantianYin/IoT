@@ -92,4 +92,4 @@ if __name__ == '__main__':
     mta = mtaUpdates(apikey)
     res = mta.getTripUpdates()
     for i in res:
-        print res.futureStopData
+        print i.futureStopData
