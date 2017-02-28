@@ -164,10 +164,10 @@ def main():
 				replyToNew()
 			else:
 				print 'Thanks for using!'
-				exit
+				exit()
 			print 'Your operation is done. Ctrl+C to exit or continue!'
 	except KeyboardInterrupt:
-		exit
+		exit()
 
 
 
