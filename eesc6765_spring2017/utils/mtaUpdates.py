@@ -46,9 +46,6 @@ class mtaUpdates(object):
             if entity.HasField('trip_update'):
                 self.tripUpdates.append([])
                 update = tripupdate.tripupdate()
-
-                newItem = awsItem()
-                newItem.timeStamp = timestamp
                 self.tripUpdates[len(self.tripUpdates)-1].append(entity.trip_update.trip.trip_id)
                 self.tripUpdates[len(self.tripUpdates)-1].append(entity.trip_update.trip.route_id)
                 self.tripUpdates[len(self.tripUpdates)-1].append(entity.trip_update.trip.start_date)
