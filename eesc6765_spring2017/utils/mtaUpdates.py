@@ -41,7 +41,6 @@ class mtaUpdates(object):
         nytime = datetime.fromtimestamp(timestamp,self.TIMEZONE)
 
         aaa = 0
-        newItem = awsItem()
         for entity in feed.entity:
         # Trip update represents a change in timetable
             if entity.HasField('trip_update'):
