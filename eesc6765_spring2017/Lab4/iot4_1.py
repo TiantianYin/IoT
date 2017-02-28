@@ -18,7 +18,7 @@ temp = 1023.0/(temp)-1.0;
 temp = 100000.0 * temp;
 temp = 1.0/(math.log(temp/100000.0)/4275+1/298.15)-273.15
 
-client = boto3.client('sns')
+client = boto3.client('sns', 'us-east-1')
 
 response = client.publish(
     TopicArn='arn:aws:sns:us-east-1:768104751743:IoT_Lab4_1',
