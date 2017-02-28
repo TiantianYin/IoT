@@ -126,15 +126,15 @@ def getTime(start, destination, timestamp):
 	#here we get the start time and the train
 	timeTo96 = timeTo(localTripId, '120', 'S')
 	timeTo42 = timeTo(localTripId, '127', 'S')
-	print timeTo96
-	print timeTo42
+	#print timeTo96
+	#print timeTo42
 
 	expTripId = getEarliest('120S', timeTo96)[3]   #get the tripId from 96 express train
-	print expTripId
-	#timeTo42Exp = timeTo(expTripId, '127', 'S')
+	#print expTripId
+	timeTo42Exp = timeTo(expTripId, '127', 'S')
 
 
-	#return [timeTo42, timeTo42Exp]
+	return [timeTo42, timeTo42Exp]
 
 def sendPlan(start, destination, timestamp):
 	msg = " "
