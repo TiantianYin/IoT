@@ -174,6 +174,7 @@ def replyToNew():
 def main():
 	#print getTrain('120')
 	#print getEarliest('120S', time.time())
+	"""
 	try:
 		while True:
 			while True:
@@ -197,6 +198,7 @@ def main():
 			else:
 				print 'Thanks for using!'
 				exit()
+	"""
 	except KeyboardInterrupt:
 		exit()
 
