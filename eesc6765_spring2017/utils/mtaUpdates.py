@@ -57,6 +57,7 @@ class mtaUpdates(object):
         for entity in feed.entity:
         # Trip update represents a change in timetable
             if entity.HasField('trip_update'):
+                del newItem
                 newItem = awsItem()
                 newItem.timeStamp = timestamp
 
@@ -72,7 +73,7 @@ class mtaUpdates(object):
                     print entity.trip_update.stop_time_update
                     print '------------------------------------'
                     print newItem.futureStopData
-                    print '------------------------------------'
+                    print '------------------------------------' 
 
             if entity.HasField('vehicle'):
                 self.tripUpdates[len(self.tripUpdates)-1].currentStopId = entity.vehicle.stop_id
