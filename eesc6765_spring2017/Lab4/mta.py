@@ -129,17 +129,15 @@ def getTime(start, destination, timestamp):
 
 def sendPlan(start, destination, timestamp):
 	msg = " "
-	"""
 	twoTimes = getTime(start, destination, timestamp)
 	if twoTimes[0] <= twoTimes[1]:
 		msg = "Stay"
 	else:
 		msg = "Switch"
 	"""
-	#----
 	k = getEarliest(str(start) + 'S', time.time())
 	msg = k[2]
-	#----
+	"""
 	print msg
 	response = client.publish(
 		TopicArn='arn:aws:sns:us-east-1:768104751743:IoT_Lab4_1',
