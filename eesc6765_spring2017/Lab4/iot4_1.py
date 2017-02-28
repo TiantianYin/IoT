@@ -42,4 +42,3 @@ message_subject = "trialBotoTRopic"
 publication = c.publish(topicarn, message, subject=message_subject)
 
 print publication
-"""
