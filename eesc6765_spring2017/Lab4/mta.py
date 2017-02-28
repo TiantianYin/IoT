@@ -31,14 +31,12 @@ def prompt():
 tripID1 = '103100_4..N34R'
 routeId1 = '4'
 
-
+"""
 def getTrain(stationID):
-
 def getEarliest(stationID, timestamp):
-
 def getTime(start, destination, timestamp):
-
 def sendPlan(start, destination, timestamp):
+"""
 
 #reply when subscribe
 def replyToNew():
@@ -82,7 +80,7 @@ def main():
 
 
 
-
+"""
 
 	response = table.scan(
 		#KeyConditionExpression=Key('year').eq(1985)
@@ -108,7 +106,7 @@ def main():
 	return 0
 
 
-
+"""
 
 
 if __name__ == "__main__":
