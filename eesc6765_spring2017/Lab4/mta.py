@@ -40,22 +40,20 @@ def sendPlan(start, destination, timestamp):
 
 #reply when subscribe
 def replyToNew():
-	#while False:	
 	while True:
-		phone_num = raw_input('Please input your phone number:')
+		phone_num = raw_input('Please input your phone number: ')
 		if phone_num.isdigit():
 			break
 		else:
 			print 'Illegal Input! Please input again.'
-	"""
+
+
 	new_arn = client.subscribe(
 		TopicArn='arn:aws:sns:us-east-1:768104751743:IoT_Lab4_1',
 		Protocol='sms',
 		Endpoint=phone_num
 	)
-	"""
 
-	new_arn = "arn:aws:sns:us-east-1:768104751743:IoT_Lab4_1:1a93e108-c975-437e-bd2e-ef08a6bc69d9"
 	msg = "Subscribe Success!"
 
 	response = client.publish(
@@ -65,8 +63,6 @@ def replyToNew():
 
 
 def main():
-	replyToNew()
-	"""
 	try:
 		while True:
 			while True:
@@ -86,7 +82,6 @@ def main():
 			print 'Your operation is done. Ctrl+C to exit or continue!'
 	except KeyboardInterrupt:
 		exit
-	"""
 
 
 
