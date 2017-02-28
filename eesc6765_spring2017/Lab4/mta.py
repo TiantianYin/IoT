@@ -90,7 +90,7 @@ def getEarliest(stationID, timestamp):
   									expressTripId = i['tripId']
   						except KeyError:
   							continue
-  	return [localTime, expressTime, localTripId, expressTripId]
+  	return [localTimeToArrive, expressTimeToArrive, localTripId, expressTripId]
 
 """
 def getTime(start, destination, timestamp):
