@@ -31,12 +31,72 @@ def prompt():
 tripID1 = '103100_4..N34R'
 routeId1 = '4'
 
-"""
 def getTrain(stationID):
+	routeId = dict()
+	response = table.scan()
+
+  	for i in response['Items']:
+  		try:
+  			tmp = routeId[i['routeId']]
+  		except KeyError:
+  			for (k,v) in  i['futureStopData'].items():
+  				if k.len() >= 3:
+  					#if k[0:3] == stationID:
+  					if k[0:3] == '120':
+  						routeId[i['routeId']] = 1
+  						break
+  	local = []
+  	express = []
+
+  	for (k,v) in routeId.items():
+  		if k == '1' or k == '6':
+  			local.append(k)
+  		else:
+  			express.append(k)
+  	return [local,express]
+
+
 def getEarliest(stationID, timestamp):
-def getTime(start, destination, timestamp):
-def sendPlan(start, destination, timestamp):
+	response = table.scan()
+	trains = getTrain(stationID)
+	localTimeToArrive = 9999999999
+	expressTimeToArrive = 9999999999
+  	for i in response['Items']:
+  		if (i['routeId'] in trains[0]) or (i['routeId'] in trains[1]):
+  			for (k,v) in  i['futureStopData'].items():
+  				if k == "120S":
+  					for j in v:
+  						try:
+  							arrTime = j['arrivaltime']
+  							arrTime = long(arrTime)
+  							timeToArrive = arrTime - timestamp
+  							if i['routeId'] in trains[0]:
+  								if timeToArrive >= 0 and timeToArrive < localTimeToArrive:
+  									localTimeToArrive = timeToArrive
+  							else:
+  								if timeToArrive >= 0 and timeToArrive < expressTimeToArrive:
+  									expressTimeToArrive = timeToArrive
+  						except KeyError:
+  							continue
+  	return [localTime, expressTime]
+
 """
+def getTime(start, destination, timestamp):
+"""
+
+def sendPlan(start, destination, timestamp):
+	msg = " "
+	twoTimes = getTime(start, destination, timestamp)
+	if twoTimes[0] <= twoTimes[1]:
+		msg = "Stay"
+	else:
+		msg = "Switch"
+	print msg
+	response = client.publish(
+		TopicArn='arn:aws:sns:us-east-1:768104751743:IoT_Lab4_1',
+		Message=msg
+	)
+
 
 #reply when subscribe
 def replyToNew():
@@ -86,7 +146,6 @@ def main():
 
 
 """
-
 	response = table.scan(
 		#KeyConditionExpression=Key('year').eq(1985)
 		FilterExpression = Key('startDate').between('20170220', '20170222')
@@ -109,8 +168,6 @@ def main():
 		)
 
 	return 0
-
-
 """
 
 
