@@ -16,13 +16,8 @@ client = boto3.client('sns', 'us-east-1')
 msg = "The current temprature is: " + str(temp)
 
 print msg
-
-logging.basicConfig(filename="sns-publish.log", level=logging.DEBUG)
-
-c = boto.sns.connect_to_region("us-east-1")
-
-topicarn = "arn:aws:sns:us-east-1:768104751743:IoT_Lab4_1"
-message = msg
-message_subject = "trialBotoTRopic"
-
-publication = c.publish(topicarn, message, subject=message_subject)
+response = client.publish(
+    TopicArn='arn:aws:sns:us-east-1:768104751743:IoT_Lab4_1',
+    #TargetArn='arn:aws:sns:us-east-1:768104751743:IoT_Lab4_1:1a93e108-c975-437e-bd2e-ef08a6bc69d9',
+    Message='aaaaa'
+)
