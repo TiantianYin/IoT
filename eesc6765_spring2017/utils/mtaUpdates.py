@@ -5,7 +5,7 @@ from collections import OrderedDict
 from pytz import timezone
 import gtfs_realtime_pb2
 import google.protobuf
-
+import copy
 import vehicle,alert,tripupdate
 
 import urllib,urllib2
@@ -53,7 +53,7 @@ class mtaUpdates(object):
         nytime = datetime.fromtimestamp(timestamp,self.TIMEZONE)
 
         aaa = 0
-
+        newItem = awsItem()
         for entity in feed.entity:
         # Trip update represents a change in timetable
             if entity.HasField('trip_update'):
@@ -67,7 +67,7 @@ class mtaUpdates(object):
                 newItem.direction = entity.trip_update.stop_time_update[0].stop_id[-1]
                 for stop in entity.trip_update.stop_time_update:
                     newItem.futureStopData[stop.stop_id] = [{'arrivaltime': stop.arrival.time or None}, {'departuretime': stop.departure.time or None}]
-                self.tripUpdates.append(newItem)
+                self.tripUpdates.append(copy.copy(newItem))
                 if aaa == 0:
                     aaa = 1
                     print entity.trip_update.stop_time_update
