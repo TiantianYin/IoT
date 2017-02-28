@@ -149,9 +149,13 @@ def main():
 					print 'Illegal input! Please input again.'
 			if choose == '1':
 				print '!'
-				print 'Please input your start stationID and direction(N/S):'
-				stationID=raw_input('StationID: ')
-				direction=raw_input('Direction(N/S): ')
+				print 'Please input your start startID and destinationID:'
+				while True:
+					startID=raw_input('StationID: ')
+					destinationID=raw_input('DestinationID: ')
+					#TODO check stationID
+					break
+				sendPlan(str(startID), str(destinationID), time.time())
 			elif choose == '2':
 				replyToNew()
 			else:
