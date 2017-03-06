@@ -1,0 +1,34 @@
+{
+  "excludedAttributeNames": [], 
+  "version": "1.0", 
+  "dataFormat": "CSV", 
+  "rowId": null, 
+  "dataFileContainsHeader": true, 
+  "attributes": [
+    {
+      "attributeName": "tripId", 
+      "attributeType": "TEXT"
+    }, 
+    {
+      "attributeName": "routeId", 
+      "attributeType": "NUMERIC"
+    }, 
+    {
+      "attributeName": "dayOfWeek", 
+      "attributeType": "CATEGORICAL"
+    }, 
+    {
+      "attributeName": "timeAt42", 
+      "attributeType": "NUMERIC"
+    }, 
+    {
+      "attributeName": "timeAt96", 
+      "attributeType": "NUMERIC"
+    }, 
+    {
+      "attributeName": "timestamp", 
+      "attributeType": "NUMERIC"
+    }
+  ], 
+  "targetAttributeName": "timeAt42"
+}
