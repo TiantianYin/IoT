@@ -8,6 +8,7 @@ import json,time,sys
 import threading
 from collections import OrderedDict
 from threading import Thread
+import csv
 
 import time
 
@@ -93,6 +94,20 @@ def add():
         time.sleep(10)
         #print "waiting..."
         sys.stdout.flush()
+
+
+def addToCSV():
+  with open('data.csv', 'wb') as csvfile:
+    writer = csv.writer(csvfile)
+    writer.writerow(['tripId','routeId','timestamp','dayOfWeek','timeAt96','timeAt42'])
+  while (True):
+    newUpdate = mtaUpdates5.mtaUpdates5(APIKEY)
+    tr = newUpdate.getTripUpdates()
+    if (len(tr) > 0):
+      #print "tr is not None"
+      for entity in tr:
+        write.writerow(entity)
+    time.sleep(10)
 
 def task2():
   time.sleep(20)
