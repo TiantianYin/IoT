@@ -32,7 +32,7 @@ TRAINING_DATA_S3_URL = "s3://mtaedisondataxyxy/Lab5_new.csv"
 def build_model(data_s3_url, schema_fn, recipe_fn, name, train_percent=70):
     """Creates all the objects needed to build an ML Model & evaluate its quality.
     """
-    ml = boto3.client('machinelearning')
+    ml = boto3.client('machinelearning', region_name='us-east-1')
     (train_ds_id, test_ds_id) = create_data_sources(ml, data_s3_url, schema_fn,
                                                     train_percent, name)
     ml_model_id = create_model(ml, train_ds_id, recipe_fn, name)

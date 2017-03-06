@@ -72,12 +72,12 @@ with open('key.txt', 'rb') as keyfile:
 
 def add():
     while (True):
-        print 'Adding!'
+        #print 'Adding!'
         newUpdate = mtaUpdates5.mtaUpdates5(APIKEY)
         tr = newUpdate.getTripUpdates()
-        print "get done"
+        #print "get done"
         if (len(tr) > 0):
-            print "tr is not None"
+            #print "tr is not None"
             for entity in tr:
    	        response = table.put_item(
      	            Item={
@@ -89,9 +89,9 @@ def add():
                         'timeAt42':entity[5]
       	            }
     	        )
-            print "put item done"
+           # print "put item done"
         time.sleep(10)
-        print "waiting..."
+        #print "waiting..."
         sys.stdout.flush()
 
 def task2():
