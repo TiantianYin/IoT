@@ -17,7 +17,7 @@ from boto3.dynamodb.conditions import Key,Attr
 #import boto3
 
 sys.path.append('../utils')
-import tripupdate,vehicle,alert,mtaUpdates,aws
+import tripupdate,vehicle,alert,mtaUpdates5,aws
 
 ### YOUR CODE HERE ####
 
@@ -71,21 +71,28 @@ with open('key.txt', 'rb') as keyfile:
 #newUpdate = mtaUpdates.mtaUpdates()
 
 def add():
-  print 'Adding!'
-  newUpdate = mtaUpdates.mtaUpdates(APIKEY)
-  tr = newUpdate.getTripUpdates()
-  for entity in tr:
-   	response = table.put_item(
-     		Item={
-          	'tripId': entity[0],
-          	'routeId': entity[1],
-          	'timestamp':entity[2],
-            'dayOfWeek':entity[3],
-            'timeAt96':entity[4],
-            'timeAt42':entity[5]
-      	     }
-    	)
-  time.sleep(30)
+    while (True):
+        print 'Adding!'
+        newUpdate = mtaUpdates5.mtaUpdates5(APIKEY)
+        tr = newUpdate.getTripUpdates()
+        print "get done"
+        if (len(tr) > 0):
+            print "tr is not None"
+            for entity in tr:
+   	        response = table.put_item(
+     	            Item={
+          	        'tripId': entity[0],
+          	        'routeId': entity[1],
+          	        'timestamp':entity[2],
+                        'dayOfWeek':entity[3],
+                        'timeAt96':entity[4],
+                        'timeAt42':entity[5]
+      	            }
+    	        )
+            print "put item done"
+        time.sleep(10)
+        print "waiting..."
+        sys.stdout.flush()
 
 def task2():
   time.sleep(20)
@@ -106,22 +113,21 @@ def task2():
 
 
 if __name__ == '__main__':
-  threads = []
+  #threads = []
   thread1 = Thread(target = add)
   thread1.setDaemon(True)
   #thread2 = Thread(target = task2)
   #thread2.setDaemon(True)
   thread1.start()
   #thread2.start()
-  threads.append(thread1)
+  #threads.append(thread1)
   #threads.append(thread2)
 
   try:
     while(True):
-      time.sleep(0.5)
+      time.sleep(1)
+
   except KeyboardInterrupt:
-    for t in threads:
-      t.join()
     exit()
     print "Exit! But Daemon Remains!"
 

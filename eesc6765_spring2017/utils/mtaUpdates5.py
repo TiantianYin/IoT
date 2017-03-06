@@ -1,6 +1,6 @@
 import urllib2,contextlib
 import datetime
-from datetime import datetime
+#from datetime import datetime
 from collections import OrderedDict
 
 from pytz import timezone
@@ -25,6 +25,7 @@ class mtaUpdates5(object):
     VCS = {1:"INCOMING_AT", 2:"STOPPED_AT", 3:"IN_TRANSIT_TO"}    
     tripUpdates = []
     alerts = []
+    stopAt42 = ["127S", "631S", "723S", "725S", "901S", "902S", "A27S", "D16S",  "R16S",]
 
     def __init__(self,apikey):
         self.feedurl = self.feedurl + apikey
@@ -38,15 +39,24 @@ class mtaUpdates5(object):
         except (urllib2.URLError, google.protobuf.message.DecodeError) as e:
             print "Error while connecting to mta server " +str(e)
     
-        timestamp = feed.header.timestamp
-        start_time = datetime.datetime.combine(datetime.date.today(), datetime.time.min)
-        timestamp = (timestamp - start_time).total_seconds() / 60
-        dayOfWeek = datetime.datetime.today().weekday()
+        print "timestamp = " + str(feed.header.timestamp)
+        ts = datetime.datetime.fromtimestamp(int(feed.header.timestamp), self.TIMEZONE)
+        ts = ts.replace(tzinfo=None)
+        #timestamp = datetime.datetime.fromtimestamp(int(nytime))
+
+        start_time = ts.replace(hour=0, minute=0, second=0, microsecond=0)
+
+        #start_time = datetime.datetime(year, month, day, tzinfo=self.TIMEZONE) 
+        print "start_time = " + start_time.strftime("%Y-%m-%d %H:%M");
+        print "cur_time = " + ts.strftime("%Y-%m-%d %H:%M");
+        timestamp = int((ts - start_time).total_seconds() / 60)
+        dayOfWeek = ts.weekday()
+        print "minutes = " + str(timestamp)
+        print "dayOfWeek = " + str(dayOfWeek)
         if (int(dayOfWeek) >= 5):
-            dayOfWeek = weekend
+            dayOfWeek = "weekend"
         else:
-            dayOfWeek = weekday
-        nytime = datetime.fromtimestamp(timestamp,self.TIMEZONE)
+            dayOfWeek = "weekday"
 
 
         for entity in feed.entity:
@@ -54,29 +64,44 @@ class mtaUpdates5(object):
             if entity.HasField('trip_update'):
                 tmp = []
                 #self.tripUpdates.append([])
+                find = 0
                 update = tripupdate.tripupdate()
                 tmp.append(entity.trip_update.trip.trip_id)
+                route_id = entity.trip_update.trip.route_id
+                try:
+                    route_id = int(route_id)
+                except ValueError:
+                    continue
+                if (route_id > 3):
+                    continue
                 tmp.append(entity.trip_update.trip.route_id)
                 tmp.append(timestamp)
                 tmp.append(dayOfWeek)
                 tmp.append(-1)
                 tmp.append(-1)
                 # find 96th and 42th street
-                find = 0
                 for stop in entity.trip_update.stop_time_update:
-                    if (stop.stop_id == '120S' or stop.stop_id == '120N'):
+                    if (stop.stop_id == '120S'):
+                        find = find + 1 
+                        stamp = datetime.datetime.fromtimestamp(int(stop.arrival.time))
+                        t = int((stamp - start_time).total_seconds() / 60)
+                        tmp[4] = (t)
+                    if (stop.stop_id in self.stopAt42):
                         find = find + 1
-                        tmp[4] = (stop.arrival.time)
-                    if (stop.stop_id == '631S' or stop.stop_id == '631N'):
-                        find = find + 1
-                        tmp[5] = (stop.arrival.time)
+                        stamp = datetime.datetime.fromtimestamp(int(stop.arrival.time))
+                        t = int((stamp - start_time).total_seconds() / 60)
+                        tmp[5] = (t)
+
+                print "entity = " + entity.id + " find = " + str(find)
                 if (find < 2):
                     continue
                 self.tripUpdates.append(tmp)
 
             if entity.HasField('vehicle'):
-                if (entity.vehicle.stop_id == '631S' or entity.vehicle.stop_id == '631N'):
-                    self.tripUpdates[len(self.tripUpdates)-1][5] = entity.vehicle.timestamp
+                if ((entity.vehicle.stop_id in self.stopAt42) and (find == 2)):
+                    stamp = datetime.datetime.fromtimestamp(int(entity.vehicle.timestamp))
+                    t = int((stamp - start_time).total_seconds() / 60)
+                    self.tripUpdates[len(self.tripUpdates)-1][5] = t
 
             #### INSERT ALERT CODE HERE #####
 
