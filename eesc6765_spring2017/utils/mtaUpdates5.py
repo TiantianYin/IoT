@@ -2,7 +2,6 @@ import urllib2,contextlib
 import datetime
 #from datetime import datetime
 from collections import OrderedDict
-
 from pytz import timezone
 import gtfs_realtime_pb2
 import google.protobuf

@@ -6,29 +6,25 @@
   "dataFileContainsHeader": true, 
   "attributes": [
     {
-      "attributeName": "tripId", 
-      "attributeType": "TEXT"
-    }, 
-    {
       "attributeName": "routeId", 
-      "attributeType": "NUMERIC"
-    }, 
-    {
-      "attributeName": "dayOfWeek", 
-      "attributeType": "CATEGORICAL"
-    }, 
-    {
-      "attributeName": "timeAt42", 
-      "attributeType": "NUMERIC"
-    }, 
-    {
-      "attributeName": "timeAt96", 
       "attributeType": "NUMERIC"
     }, 
     {
       "attributeName": "timestamp", 
       "attributeType": "NUMERIC"
     }
+    {
+      "attributeName": "dayOfWeek", 
+      "attributeType": "CATEGORICAL"
+    }, 
+    {
+      "attributeName": "timeAt96", 
+      "attributeType": "NUMERIC"
+    }, 
+    {
+      "attributeName": "SwitchOrNot", 
+      "attributeType": "BINARY"
+    }, 
   ], 
-  "targetAttributeName": "timeAt42"
+  "targetAttributeName": "SwitchOrNot"
 }

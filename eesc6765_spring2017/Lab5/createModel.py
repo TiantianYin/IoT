@@ -26,7 +26,7 @@ import os
 import sys
 
 #TODO
-TRAINING_DATA_S3_URL = "s3://mtaedisondataxyxy/Lab5_new.csv"
+TRAINING_DATA_S3_URL = "s3://mtaedisondataxyxy/Lab5_data.csv"
 
 
 def build_model(data_s3_url, schema_fn, recipe_fn, name, train_percent=70):
@@ -128,7 +128,7 @@ if __name__ == "__main__":
         if len(sys.argv) > 2:
             name = sys.argv[1]
         else:
-            name = "mta model"
+            name = "mta model new"
     except:
         raise
     model_id = build_model(data_s3_url, schema_fn, recipe_fn, name=name)
