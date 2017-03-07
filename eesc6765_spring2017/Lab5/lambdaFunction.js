@@ -21,17 +21,17 @@ exports.handler = function(event, context) {
   var endpointUrl = 'https://realtime.machinelearning.us-east-1.amazonaws.com';
   var mlModelId = 'ml-MUUGZTVL2DWDPAPK';
   var snsTopicArn = 'arn:aws:sns:us-east-1:768104751743:Lab5';
-  var snsMessageSubject = 'Switch or not';
+  var snsMessageSubject = 'Switch or not: s';
   var snsMessagePrefix = 'ML model '+mlModelId;
   var numMessagesProcessed = 0;
   var numMessagesToBeProcessed = event.Records.length;
   console.log("numMessagesToBeProcessed:"+numMessagesToBeProcessed);
 
-  var updateSns = function(tweetData) {
+  var sendSns = function(tweetData) {
     var params = {};
     params['TopicArn'] = snsTopicArn;
     params['Subject']  = snsMessageSubject;
-    params['Message']  = snsMessagePrefix+tweetData['sid'];
+    params['Message']  = snsMessagePrefix+tweetData
     console.log('Calling Amazon SNS to publish.');
     sns.publish(
       params,
@@ -65,13 +65,8 @@ exports.handler = function(event, context) {
             context.done(null, 'Call to predict service failed.');
           }
           else {
-            console.log('Predict call succeeded');
-            if(data.Prediction.predictedLabel === '1'){
-              updateSns(tweetData);
-            }
-            else{
-              context.done(null, "Tweet doesn't require response from customer service");
-            }
+            console.log('Predict call succeeded:'+data.Prediction.predictedLabel);
+            //sendSns(data.Prediction.predictedLabel);
           }
         }
         );
@@ -102,8 +97,8 @@ exports.handler = function(event, context) {
         }
         //var parsedPayload = JSON.parse(prdData);
         console.log('%');
-        //callPredict(parsedPayload);
-        callPredict(prdData);
+        callPredict(parsedPayload);
+        //callPredict(prdData);
         console.log('@');
       }
       catch (err) {
@@ -135,5 +130,6 @@ exports.handler = function(event, context) {
   }
   console.log('6');
   processRecords();
+  //ml.getMLModel({MLModelId:mlModelId}, checkRealtimeEndpoint);
   console.log('complete');
 };
