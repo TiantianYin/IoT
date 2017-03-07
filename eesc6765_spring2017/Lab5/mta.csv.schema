@@ -12,7 +12,7 @@
     {
       "attributeName": "timestamp", 
       "attributeType": "NUMERIC"
-    }
+    },
     {
       "attributeName": "dayOfWeek", 
       "attributeType": "CATEGORICAL"
@@ -24,7 +24,7 @@
     {
       "attributeName": "SwitchOrNot", 
       "attributeType": "BINARY"
-    }, 
+    } 
   ], 
   "targetAttributeName": "SwitchOrNot"
 }

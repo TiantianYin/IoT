@@ -1,11 +1,11 @@
 import csv
 import operator
 
-f = open( './data.csv', 'rb')
+f = open( './Lab5.csv', 'rb')
 
-w = open('./middle.csv', 'w')
+w = open('./middle2.csv', 'wb')
 
-final = open('./result.csv', 'w')
+final = open('./result2.csv', 'wb')
 
 
 
@@ -33,7 +33,7 @@ w.close()
 
 
 
-f = open( './middle.csv', 'rb')
+f = open( './middle2.csv', 'rb')
 
 reader = csv.reader(f)
 writer = csv.writer(final)
@@ -64,7 +64,7 @@ while True:
 			elif (row[1] == '2' or row[1] == '3'):
 				break
 		for r in routes:
-			if (r[3] < row[3]):  #this means route 1 gets 42th street earlier
+			if (r[5] < row[5]):  #this means route 1 gets 42th street earlier
 				r.append('no')
 				writer.writerow(r)
 			else :

@@ -128,7 +128,7 @@ if __name__ == "__main__":
         if len(sys.argv) > 2:
             name = sys.argv[1]
         else:
-            name = "mta model new"
+            name = "mta model version3"
     except:
         raise
     model_id = build_model(data_s3_url, schema_fn, recipe_fn, name=name)
