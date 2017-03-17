@@ -13,5 +13,5 @@ get the raw data from MTA feed and store it in a csv file
 Lab5_data.csv
 cleaned data, which is uploaded to S3
 
-node.js
+lambdaFunction.js
 for real time prediction
