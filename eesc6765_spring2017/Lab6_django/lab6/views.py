@@ -1,35 +1,29 @@
 from django.shortcuts import render
+from django.http import JsonResponse
+#from django import forms
 
-#TODO just for test
-import random
-import time
-import thread
+from .forms import SrcForm
+from .forms import DesForm
+
 import sys
 import json
 
 
-TEMP = '0 Degrees Celsius'
-daemonStart = False
-TEMP_ARR = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
 
-def getTemp():
-	global TEMP, daemonStart
-	while (True):
-		daemonStart = True
-		TEMP = str(random.randint(10,30))
-		time.sleep(0.5)
 
 # Create your views here.
 def index(request):
-	global TEMP, daemonStart, TEMP_ARR
-	if (daemonStart == False):
-		thread.start_new_thread(getTemp, ())
-	print TEMP
-	tempStr = TEMP + ' Degrees Celsius'
-	sys.stdout.flush()
-	context = {'curTemp': tempStr}
 
-	del TEMP_ARR[0]
-	TEMP_ARR.append(TEMP)
+	if request.method == 'POST':
+		print request.POST.get('srcCity')
+		print request.POST.get('desCity')
+		sys.stdout.flush()
 
-	return render(request, 'lab6/index.html', {'context': context, 'temparr': json.dumps(TEMP_ARR)})
+		srcWeather = ['17', 'Mostly Cloudy', '88']
+		desWeather = ['17', 'Mostly Cloudy', '88']
+		weather = [srcWeather, desWeather]
+		return JsonResponse(json.dumps(weather), safe=False)
+	else:
+		srcForm = SrcForm()
+		desForm = DesForm()
+		return render(request, 'lab6/index.html', {'srcForm': srcForm, 'desForm': desForm})
