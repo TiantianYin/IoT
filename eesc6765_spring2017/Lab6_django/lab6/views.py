@@ -8,19 +8,28 @@ from .forms import DesForm
 import sys
 import json
 
+import pywapi
 
 
+def getWeather(city):
+	id = pywapi.get_loc_id_from_weather_com(city)
+	result = pywapi.get_weather_from_weather_com(id[0][0], 'metric')
+	cur = result['current_conditions']
+	res = [city, cur['temperature'], cur['text'], cur['visibility']]
+	return res
 
 # Create your views here.
 def index(request):
 
 	if request.method == 'POST':
-		print request.POST.get('srcCity')
-		print request.POST.get('desCity')
+		srcCity = request.POST.get('srcCity')
+		desCity = request.POST.get('desCity')
+		print srcCity
+		print desCity
 		sys.stdout.flush()
 
-		srcWeather = ['17', 'Mostly Cloudy', '88']
-		desWeather = ['17', 'Mostly Cloudy', '88']
+		srcWeather = getWeather(srcCity)
+		desWeather = getWeather(desCity)
 		weather = [srcWeather, desWeather]
 		return JsonResponse(json.dumps(weather), safe=False)
 	else:

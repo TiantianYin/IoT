@@ -13,11 +13,12 @@ function initMap() {
   //calcRoute();
 }
 
-function calcRoute() {
-  console.log(document.getElementById('start').value);
+function calcRoute(weather) {
+  var srcCity = weather[0][0];
+  var desCity = weather[1][0];
   directionsService.route({
-    origin: "chicago, il",
-    destination: "joplin, mo",
+    origin: srcCity,
+    destination: desCity,
     travelMode: google.maps.TravelMode.DRIVING
   }, function(response, status) {
     if (status === google.maps.DirectionsStatus.OK) {
